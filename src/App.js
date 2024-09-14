@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import SearchBar from './components/SearchBar';
 
-function App() {
+const App = () => {
+  const [countries, setCountries] = useState([]);
+
+  // Fetch JSON data when the component mounts
+  useEffect(() => {
+    fetch('/data/countries.json')  // Adjust the path if needed
+      .then((response) => response.json())
+      .then((data) => setCountries(data))
+      .catch((error) => console.error('Error fetching countries:', error));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Country Search</h1>
+      <SearchBar countries={countries} />
     </div>
   );
-}
+};
 
 export default App;
